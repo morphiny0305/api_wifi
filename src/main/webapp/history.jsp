@@ -37,7 +37,7 @@
 		<tbody>
 		<% if (historyList.isEmpty()) {%>
 		<tr>
-			<td colspan="5">위치 정보를 조회하신 이력이 없습니다.</td>
+			<td class="messages" colspan="5">위치 정보를 조회하신 이력이 없습니다.</td>
 		</tr>
 		<% } else { %>
 		<% for (History_DTO historyDTO : historyList) { %>

@@ -37,14 +37,11 @@
 			<th>관리번호</th>
 			<th>자치구</th>
 			<th>와이파이명</th>
-
 			<th>도로명 주소</th>
 			<th>상세 주소</th>
-
 			<th>설치 위치(층)</th>
 			<th>설치 기관</th>
 			<th>설치 유형</th>
-
 			<th>서비스 구분</th>
 			<th>망 종류</th>
 			<th>설치 년도</th>
@@ -62,14 +59,20 @@
 				Wifi_DAO wifiDAO = new Wifi_DAO();
 				List<Wifi_DTO> list = wifiDAO.getNearestWifiList(lat, lnt);
 
+				Set<String> uniqueEntries = new HashSet<>();
+
 				if (list != null) {
 					for (Wifi_DTO wifiDTO : list) {
+						String uniqueKey = wifiDTO.getXSwifiMgrNo() + wifiDTO.getXSwifiMainNm() + wifiDTO.getXSwifiAdres1();
+
+						if (!uniqueEntries.contains(uniqueKey)) {
+							uniqueEntries.add(uniqueKey);
 		%>
 		<tr>
 			<td><%=wifiDTO.getDistance()%></td>
 			<td><%=wifiDTO.getXSwifiMgrNo()%></td>
 			<td><%=wifiDTO.getXSwifiWrdofc()%></td>
-			<td><a href="detail_wifi.jsp?mgrNo=<%= wifiDTO.getXSwifiMgrNo() %>&distance=<%=wifiDTO.getDistance()%>&wifiname=<%=wifiDTO.getXSwifiMainNm()%>"><%= wifiDTO.getXSwifiMainNm() %></a></td>
+			<td><%=wifiDTO.getXSwifiMainNm()%></td>
 			<td><%=wifiDTO.getXSwifiAdres1()%></td>
 			<td><%=wifiDTO.getXSwifiAdres2()%></td>
 			<td><%=wifiDTO.getXSwifiInstlFloor()%></td>
@@ -84,10 +87,12 @@
 			<td><%=wifiDTO.getLnt()%></td>
 			<td><%=wifiDTO.getWorkDttm()%></td>
 		</tr>
-		<% } %>
-		<% } %>
-		<% } else { %>
-		<td colspan='17'> 위치 정보를 입력하신 후에 조회해 주세요. </td>
+		<%
+					} // end if
+				} // end for
+			} // end if
+		} else { %>
+		<td colspan='17' class="messages" > 위치 정보를 입력하신 후에 조회해 주세요. </td>
 		<% } %>
 		</tbody>
 	</table>
@@ -103,7 +108,7 @@
 	window.onload = () => {
 		lat = document.getElementById("lat").value;
 		lnt = document.getElementById("lnt").value;
-	}
+	};
 
 	getCurPosition.addEventListener("click", function () {
 		if ('geolocation' in navigator) {
@@ -112,9 +117,9 @@
 				let longitude = position.coords.longitude;
 				document.getElementById("lat").value = latitude;
 				document.getElementById("lnt").value = longitude;
-			})
+			});
 		} else{
-			alert("위치정보를 확인할 수 없음")
+			alert("위치정보를 확인할 수 없음");
 		}
 	});
 
@@ -125,9 +130,9 @@
 		if (latitude !== "" || longitude !== "") {
 			window.location.assign("http://localhost:8080/demo?lat=" + latitude + "&lnt=" + longitude);
 		} else {
-			alert("위치 정보를 입력하신 후에 조회해주세요.")
+			alert("위치 정보를 입력하신 후에 조회해주세요.");
 		}
-	})
+	});
 </script>
 
 </body>

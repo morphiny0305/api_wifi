@@ -38,7 +38,7 @@ public class History_DAO {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", dfs);
             String strDate = sdf.format(new Date());
 
-            String sql = " insert into earch_History "
+            String sql = " insert into Search_History "
                     + " (lat, lnt, search_dttm) "
                     + " values ( ?, ?, ? )";
 
@@ -70,7 +70,7 @@ public class History_DAO {
         try {
             connection = DatabaseConnection.connectDB();
             String sql = "SELECT * " +
-                    "FROM earch_History " +
+                    "FROM Search_History " +
                     "ORDER BY id DESC";  // 'id' 컬럼을 기준으로 내림차순 정렬
 
             preparedStatement = connection.prepareStatement(sql);
@@ -102,7 +102,7 @@ public class History_DAO {
 
         try {
             connection = DatabaseConnection.connectDB();
-            String sql = "delete from search_History where id = ? ";
+            String sql = "delete from Search_History where id = ? ";
 
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(id));
